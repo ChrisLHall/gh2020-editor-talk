@@ -490,5 +490,17 @@ namespace KartGame.KartSystems
         {
             canMove = move;
         }
+
+        // *** NEW CODE Part 1: Gizmos ***
+        private void OnDrawGizmos()
+        {
+            // Rigidbody must not be null
+            if (Rigidbody != null)
+            {
+                Gizmos.color = Color.green;
+                // Draw a line in the direction of movement
+                Gizmos.DrawLine(transform.position, transform.position + Rigidbody.velocity);
+            }
+        }
     }
 }
