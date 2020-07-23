@@ -501,6 +501,32 @@ namespace KartGame.KartSystems
                 // Draw a line in the direction of movement
                 Gizmos.DrawLine(transform.position, transform.position + Rigidbody.velocity);
             }
+
+            // Draw a line to the closest checkpoint
+            PickupObject[] checkpoints = FindObjectsOfType<PickupObject>(); // Checkpoints have a script called "Pickup object"
+            PickupObject closestCheckpoint = null;
+            foreach (PickupObject checkpoint in checkpoints)
+            {
+                if (closestCheckpoint == null || DistanceToCheckpoint(checkpoint) < DistanceToCheckpoint(closestCheckpoint))
+                {
+                    closestCheckpoint = checkpoint;
+                }
+            }
+
+            if (closestCheckpoint != null)
+            {
+                Gizmos.color = Color.blue;
+                // draw a cube at the closest checkpoint because...why not
+                Gizmos.DrawCube(closestCheckpoint.transform.position, Vector3.one * 0.8f);
+                Gizmos.DrawLine(transform.position, closestCheckpoint.transform.position);
+            }
+        }
+
+        private float DistanceToCheckpoint(PickupObject checkpoint)
+        {
+            // get the Vector3 distance between me and the checkpoint
+            // then get the length (magnitude) of that
+            return (transform.position - checkpoint.transform.position).magnitude;
         }
     }
 }
